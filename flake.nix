@@ -77,9 +77,15 @@
             chmod -R 777 services/nginx_subst
             rm -r services/nginx_subst
             chmod -R 777 services/nginx
+            mkdir nginxlogs
+            touch nginxlogs/error.log
+            touch nginxlogs/nginx.pid
             
             #shopware setup
             cp -r $SHOPWARE_SOURCE/. $HOME/
+
+            #start services
+            runsvdir services
           ";
         };
       }  
