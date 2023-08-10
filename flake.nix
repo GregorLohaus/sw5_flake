@@ -86,7 +86,7 @@
             cp -r $SHOPWARE_SOURCE/. $HOME/
 
             #start services
-            runsvdir services
+            # runsvdir services
           ";
         };
       }  

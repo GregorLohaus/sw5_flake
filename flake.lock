@@ -69,11 +69,11 @@
     "nginxconfshopware": {
       "flake": false,
       "locked": {
-        "lastModified": 1691673852,
-        "narHash": "sha256-xMjE6UuL+olpm28HzD03Myn/v494D2ItDci0kyt/0+M=",
+        "lastModified": 1691674666,
+        "narHash": "sha256-grRqiW8Purq7NkTtT+LiYlq/aUN3Ze/9SjxgwPiexeo=",
         "owner": "GregorLohaus",
         "repo": "nginxshopwareconf",
-        "rev": "83e8250012efa05107c433b780aa73ef968e53f2",
+        "rev": "dcaf74af9f21beff3f266e000268c14de16440f8",
         "type": "github"
       },
       "original": {
@@ -85,11 +85,11 @@
     "nginxservice": {
       "flake": false,
       "locked": {
-        "lastModified": 1691658199,
-        "narHash": "sha256-zL9CHgvXVnmGkBkx0ZU6qTgsIrTod4RW7BC3cYJkNJY=",
+        "lastModified": 1691674756,
+        "narHash": "sha256-92WVVOXhZANpiK8nyWpxoyxq/9ALtEyLXSWvAdpsezQ=",
         "owner": "GregorLohaus",
         "repo": "runit_nginx_service_for_sw5_flake",
-        "rev": "3733b811476902999e3f85375c636da859ca8cda",
+        "rev": "266fe0fe88af52597be58bc37920860557ffb70a",
         "type": "github"
       },
       "original": {
