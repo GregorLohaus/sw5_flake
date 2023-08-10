@@ -69,11 +69,11 @@
     "nginxconfshopware": {
       "flake": false,
       "locked": {
-        "lastModified": 1691686291,
-        "narHash": "sha256-tUBGClUd5o3sYMKDu6SVTWtk//yV2zCK/frb1DuSAOs=",
+        "lastModified": 1691687145,
+        "narHash": "sha256-WapUBL7kw227h/6EyPdHqwW3hJ/UcmgKuSBnuY7jng8=",
         "owner": "GregorLohaus",
         "repo": "nginxshopwareconf",
-        "rev": "0068c388130aef9535a1e7d073ee69cfb72a7428",
+        "rev": "334f274bd003c5ca3d85dedd3c4bfcab953b267f",
         "type": "github"
       },
       "original": {
@@ -132,11 +132,11 @@
     "phpfpmconf": {
       "flake": false,
       "locked": {
-        "lastModified": 1691686256,
-        "narHash": "sha256-elNxsRINNjl59yJSDOZEdqZUWQFgjE+yFkwWYLRoKJU=",
+        "lastModified": 1691687103,
+        "narHash": "sha256-NA5p5UGBpsTmQO3ehvl7Q5ruh0WW244WTAlD1M3t1Lw=",
         "owner": "GregorLohaus",
         "repo": "php_fpm_conf_for_sw5_flake",
-        "rev": "2ee321aa9a6579faf379f3bbdfc59bfe494e6a84",
+        "rev": "54eca75b22d8c9873dc34b41388b23b1dd3465f6",
         "type": "github"
       },
       "original": {
