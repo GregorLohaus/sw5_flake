@@ -33,7 +33,7 @@
       flake = false;
     };
   };
-  outputs = { self, nixpkgs, flake-utils, phps, shopware, nginxconfshopware, mariadbcnf, mariadbservice, nginxservice,phpfpmconf  }: 
+  outputs = { self, nixpkgs, flake-utils, phps, shopware, nginxconfshopware, mariadbcnf, mariadbservice, nginxservice, phpfpmconf, phpfpmservice }: 
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -59,6 +59,7 @@
           MARIADB_SERVICE = mariadbservice;
           NGINX_SERVICE = nginxservice;
           PHPFPMCONF = phpfpmconf;
+          PHPFPM_SERVICE = phpfpmservice;
           HOSTNAME = "localhost"; 
           shellHook = "
             #env setup
@@ -95,8 +96,20 @@
             touch nginxlogs/nginx.pid
 
             #php-fpm setup
-            mkdir tmpi
+            mkdir -p tmp
+            mkdir -p phpfpmlogs 
+            touch phpfpmlogs/php-fpm.log
+            touch phpfpmlogs/php-fpm.pid
+            chmod -R 777 phpfpmlogs
+            chmod -R 777 tmp
             cat $PHPFPMCONF/php-fpm.conf | envsubst > php-fpm.conf
+            rsync -avz $PHPFPM_SERVICE/ services/
+            chmod -R 777 services/phpfpm
+            cat services/phpfpm_subst/run_subst | envsubst > services/phpfpm/run 
+            cat services/phpfpm_subst/log/run_subst | envsubst > services/phpfpm/log/run
+            chmod -R 777 services/phpfpm_subst
+            rm -r services/phpfpm_subst
+            chmod -R 777 services/phpfpm
             
             #shopware setup
             rsync -avz $SHOPWARE_SOURCE/ $HOME/

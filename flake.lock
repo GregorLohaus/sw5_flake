@@ -129,6 +129,38 @@
         "type": "github"
       }
     },
+    "phpfpmconf": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1691679567,
+        "narHash": "sha256-vP/ZRI9XlGcZJ00lZf09Zr73KmwGNnDTV8dyiI+vTGM=",
+        "owner": "GregorLohaus",
+        "repo": "php_fpm_conf_for_sw5_flake",
+        "rev": "14543ae1cdc46f6d9188c54f5af939f57d5d3ee9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "GregorLohaus",
+        "repo": "php_fpm_conf_for_sw5_flake",
+        "type": "github"
+      }
+    },
+    "phpfpmservice": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1691680617,
+        "narHash": "sha256-3dMgFY8yVLX0E3L81Xe/F49x8OuKZfAGJHYS1iusEXQ=",
+        "owner": "GregorLohaus",
+        "repo": "runit_phpfpm_service_for_sw5_flake",
+        "rev": "4f061666b62d56acfeb569472b1e634bf760e380",
+        "type": "github"
+      },
+      "original": {
+        "owner": "GregorLohaus",
+        "repo": "runit_phpfpm_service_for_sw5_flake",
+        "type": "github"
+      }
+    },
     "phps": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -157,6 +189,8 @@
         "nginxconfshopware": "nginxconfshopware",
         "nginxservice": "nginxservice",
         "nixpkgs": "nixpkgs",
+        "phpfpmconf": "phpfpmconf",
+        "phpfpmservice": "phpfpmservice",
         "phps": "phps",
         "shopware": "shopware"
       }
