@@ -79,6 +79,7 @@
             chmod -R 777 services/nginx
             mkdir nginxlogs
             touch nginxlogs/error.log
+            touch nginxlogs/access.log
             touch nginxlogs/nginx.pid
             
             #shopware setup
