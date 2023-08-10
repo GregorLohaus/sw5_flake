@@ -69,11 +69,11 @@
     "nginxconfshopware": {
       "flake": false,
       "locked": {
-        "lastModified": 1691670587,
-        "narHash": "sha256-xtaH1DDQkI5c/TxhVdghwu9aU933FymWWxkM4d/CK08=",
+        "lastModified": 1691672186,
+        "narHash": "sha256-r9PqC/YC6dO+AlbzLdGSoep6w0fG9AD5WP9wLyna3Fw=",
         "owner": "GregorLohaus",
         "repo": "nginxshopwareconf",
-        "rev": "c4fbe328da3536fa4105cea1493344a52d8264ff",
+        "rev": "d5ff189c57f4e43a51df56c7e5e3efc8fc483ca9",
         "type": "github"
       },
       "original": {
