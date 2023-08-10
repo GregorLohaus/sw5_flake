@@ -69,6 +69,7 @@
 
             #nginx setup
             cat $NGINX_CONF/shopware5.conf | envsubst > nginx.conf
+            cat $NGINX_CONF/fastcgi.conf | envsubst > fastcgi.conf
             cp -r $NGINX_SERVICE/. services/
             chmod -R 777 services/nginx
             cat services/nginx_subst/run_subst | envsubst > services/nginx/run 
