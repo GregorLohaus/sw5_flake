@@ -113,7 +113,7 @@
             chmod -R 777 services/phpfpm
             
             #shopware setup
-            rsync -rL $SHOPWARE_SOURCE/ $HOME/
+            rsync -rLp $SHOPWARE_SOURCE/ $HOME/
 
             #start services
             # runsvdir services
