@@ -73,7 +73,7 @@
             mkdir -p mariadb/data
             mkdir -p mariadb/english
             mkdir -p services/mariadb
-            rsync -avz $MARIADB_SERVICE/ services/mariadb/
+            rsync -avzL $MARIADB_SERVICE/ services/mariadb/
             mkdir services/mariadb/logs
             chmod -R 777 services/mariadb
             cat services/mariadb/run_subst | envsubst > services/mariadb/run 
@@ -83,7 +83,7 @@
             #nginx setup
             cat $NGINX_CONF/shopware5.conf | envsubst > nginx.conf
             cat $NGINX_CONF/fastcgi.conf | envsubst > fastcgi.conf
-            rsync -avz $NGINX_SERVICE/ services/
+            rsync -avzL $NGINX_SERVICE/ services/
             chmod -R 777 services/nginx
             cat services/nginx_subst/run_subst | envsubst > services/nginx/run 
             cat services/nginx_subst/log/run_subst | envsubst > services/nginx/log/run
@@ -103,7 +103,7 @@
             chmod -R 777 phpfpmlogs
             chmod -R 777 tmp
             cat $PHPFPMCONF/php-fpm.conf | envsubst > php-fpm.conf
-            rsync -avz $PHPFPM_SERVICE/ services/
+            rsync -avzL $PHPFPM_SERVICE/ services/
             chmod -R 777 services/phpfpm
             cat services/phpfpm_subst/run_subst | envsubst > services/phpfpm/run 
             cat services/phpfpm_subst/log/run_subst | envsubst > services/phpfpm/log/run
@@ -112,7 +112,7 @@
             chmod -R 777 services/phpfpm
             
             #shopware setup
-            rsync -avz $SHOPWARE_SOURCE/ $HOME/
+            rsync -avzL $SHOPWARE_SOURCE/ $HOME/
 
             #start services
             # runsvdir services
