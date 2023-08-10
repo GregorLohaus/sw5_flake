@@ -75,7 +75,7 @@
             mkdir -p mariadb/english
             mkdir -p services/mariadb
             cp -r -u -f $MARIADB_SERVICE/. services/mariadb/
-            mkdir services/mariadb/logs
+            mkdir -p services/mariadb/logs
             chmod -R 777 services/mariadb
             cat services/mariadb/run_subst | envsubst > services/mariadb/run 
             cat services/mariadb/log/run_subst | envsubst > services/mariadb/log/run
@@ -91,7 +91,7 @@
             chmod -R 777 services/nginx_subst
             rm -r services/nginx_subst
             chmod -R 777 services/nginx
-            mkdir nginxlogs
+            mkdir -p nginxlogs
             touch nginxlogs/error.log
             touch nginxlogs/access.log
             touch nginxlogs/nginx.pid
