@@ -111,6 +111,7 @@
             chmod -R 777 services/phpfpm_subst
             rm -r services/phpfpm_subst
             chmod -R 777 services/phpfpm
+            touch php-fpm.sock
             
             #shopware setup
             cp -r -u -f $SHOPWARE_SOURCE/. $HOME/
