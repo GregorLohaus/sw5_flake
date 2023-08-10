@@ -132,11 +132,11 @@
     "phpfpmconf": {
       "flake": false,
       "locked": {
-        "lastModified": 1691679567,
-        "narHash": "sha256-vP/ZRI9XlGcZJ00lZf09Zr73KmwGNnDTV8dyiI+vTGM=",
+        "lastModified": 1691681847,
+        "narHash": "sha256-+PnnMAznpAd1q4mDe5OiqtPnRLMA7NHYXoaDyvpeJRg=",
         "owner": "GregorLohaus",
         "repo": "php_fpm_conf_for_sw5_flake",
-        "rev": "14543ae1cdc46f6d9188c54f5af939f57d5d3ee9",
+        "rev": "5845226bf3885029f0c10e04072ba62bc69114e5",
         "type": "github"
       },
       "original": {
