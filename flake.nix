@@ -24,8 +24,16 @@
       url = "github:GregorLohaus/runit_nginx_service_for_sw5_flake";
       flake = false;
     };
+    phpfpmservice = {
+      url = "github:GregorLohaus/runit_phpfpm_service_for_sw5_flake";
+      flake = false;
+    };
+    phpfpmconf = {
+      url = "github:GregorLohaus/php_fpm_conf_for_sw5_flake";
+      flake = false;
+    };
   };
-  outputs = { self, nixpkgs, flake-utils, phps, shopware, nginxconfshopware, mariadbcnf, mariadbservice, nginxservice }: 
+  outputs = { self, nixpkgs, flake-utils, phps, shopware, nginxconfshopware, mariadbcnf, mariadbservice, nginxservice,phpfpmconf  }: 
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -34,6 +42,7 @@
         maria = pkgs.mariadb;
         envsubst = pkgs.envsubst;
         runit = pkgs.runit;
+        rsync = pkgs.rsync;
       in {
         devShell = pkgs.mkShell {
           buildInputs = [
@@ -42,12 +51,15 @@
             maria
             envsubst
             runit
+            rsync
           ];
           SHOPWARE_SOURCE = shopware;
           NGINX_CONF = nginxconfshopware; 
           MARIADB_CONF = mariadbcnf;
           MARIADB_SERVICE = mariadbservice;
-          NGINX_SERVICE = nginxservice; 
+          NGINX_SERVICE = nginxservice;
+          PHPFPMCONF = phpfpmconf;
+          HOSTNAME = "localhost"; 
           shellHook = "
             #env setup
             export HOME=$PWD
@@ -60,7 +72,7 @@
             mkdir -p mariadb/data
             mkdir -p mariadb/english
             mkdir -p services/mariadb
-            cp -r $MARIADB_SERVICE/. services/mariadb/
+            rsync -avz $MARIADB_SERVICE/ services/mariadb/
             mkdir services/mariadb/logs
             chmod -R 777 services/mariadb
             cat services/mariadb/run_subst | envsubst > services/mariadb/run 
@@ -70,7 +82,7 @@
             #nginx setup
             cat $NGINX_CONF/shopware5.conf | envsubst > nginx.conf
             cat $NGINX_CONF/fastcgi.conf | envsubst > fastcgi.conf
-            cp -r $NGINX_SERVICE/. services/
+            rsync -avz $NGINX_SERVICE/ services/
             chmod -R 777 services/nginx
             cat services/nginx_subst/run_subst | envsubst > services/nginx/run 
             cat services/nginx_subst/log/run_subst | envsubst > services/nginx/log/run
@@ -81,9 +93,13 @@
             touch nginxlogs/error.log
             touch nginxlogs/access.log
             touch nginxlogs/nginx.pid
+
+            #php-fpm setup
+            mkdir tmpi
+            cat $PHPFPMCONF/php-fpm.conf | envsubst > php-fpm.conf
             
             #shopware setup
-            cp -r $SHOPWARE_SOURCE/. $HOME/
+            rsync -avz $SHOPWARE_SOURCE/ $HOME/
 
             #start services
             # runsvdir services
