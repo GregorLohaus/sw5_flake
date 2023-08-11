@@ -132,13 +132,16 @@
             
             #start services
             runsvdir services &
-            RUNSVDIRPID=$$
-            trap 'kill -SIGHUP $RUNSVDIRPID'
+            RUNSVDIRPID=$!
+            trap 'sv stop nginx && sv stop phpfpm && sv stop mariadb && kill -SIGHUP $RUNSVDIRPID' EXIT
             
             #shopware install
+            mv _sql/install/latest.sql recovery/install/data/install.sql
+            composer update
+            composer install
             mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
             mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"CREATE USER IF NOT EXISTS '${dbuser}'@'localhost' IDENTIFIED BY '${dbpass}'\"
-            php recovery/install/index.php --db-host='${dbhost}' --db-port='${dbport}' --db-socket=\"$HOME/mariadb/tmp/mysql.sock\" --db-password='${dbpass}' --db-user=$USER  --db-name='${dbname}' --shop-locale='DE' --shop-currency='EUR' --admin-username='demo' --admin-password='demo' --admin-email='your.email@shop.com' --admin-locale='DE' --no-interaction
+            php recovery/install/index.php -e dev  --db-host='${dbhost}' --db-port='${dbport}' --db-socket=\"$HOME/mariadb/tmp/mysql.sock\" --db-password='${dbpass}' --db-user=$USER  --db-name='${dbname}' --shop-locale='DE' --shop-currency='EUR' --admin-username='demo' --admin-password='demo' --admin-email='your.email@shop.com' --admin-locale='DE' --no-interaction
           ";
         };
       }  
