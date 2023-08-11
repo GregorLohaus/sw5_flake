@@ -233,11 +233,11 @@
     "sw5-6-7sql": {
       "flake": false,
       "locked": {
-        "lastModified": 1691755714,
-        "narHash": "sha256-sF2i0FdqS8+hiWbroC5M7dgBy14LMiUDUMk6ou4+maA=",
+        "lastModified": 1691757700,
+        "narHash": "sha256-BA3D9GaeoAqNGwlHd8pOSDpfKeGSBsdqugs2L4gUlLQ=",
         "owner": "GregorLohaus",
         "repo": "sw5-6-7-rec-inst-dat-sql",
-        "rev": "8b6b84da6942ff31c478cccdbbe2d534d2ef3088",
+        "rev": "6b759871ed63dc915ded82248f083a78f1f477ae",
         "type": "github"
       },
       "original": {

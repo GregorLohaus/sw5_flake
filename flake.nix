@@ -142,6 +142,7 @@
             chmod -R 755 vendor
             cp -r -u -f ${sw5-6-7sql}/. recovery/install/data/sql
             chmod -R 755 recovery 
+            cp recovery/install/config/production.php recovery/install/config/dev.php
             COMPOSER_MEMORY_LIMIT=-1 composer install
             mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
             mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"CREATE USER IF NOT EXISTS '${dbuser}'@'localhost' IDENTIFIED BY '${dbpass}'\"
