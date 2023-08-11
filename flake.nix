@@ -133,7 +133,8 @@
             #start services
             runsvdir services &
             RUNSVDIRPID=$$
-
+            trap c'kill -SIGHUP $RUNSVDIRPID'
+            
             #shopware install
             mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
             mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"CREATE USER IF NOT EXISTS '${dbuser}'@'localhost' IDENTIFIED BY '${dbpass}'\"
