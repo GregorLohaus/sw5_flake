@@ -47,7 +47,12 @@
         envsubst = pkgs.envsubst;
         runit = pkgs.runit;
         rsync = pkgs.rsync;
-        composer = phps.packages.${system}.composer;
+        composer = pkgs.php82Packages.composer;
+        dbname = "shopware";
+        dbuser = "root";
+        dbpass = "root";
+        dbhost = "127.0.0.1";
+        dbport = "3306";
       in {
         devShell = pkgs.mkShell {
           buildInputs = [
@@ -61,11 +66,11 @@
           ];
           NGINX_PATH = nginx;
           HOSTNAME = "localhost";
-          DBPASS = "root";
-          DBUSER = "root";
-          DBHOST = "127.0.0.1";
-          DBPORT = "3306"; 
-          DBNAME = "shopware";
+          DBPASS = dbpass;
+          DBUSER = dbuser;
+          DBHOST = dbhost;
+          DBPORT = dbport; 
+          DBNAME = dbname;
           shellHook = "
             #env setup
             export HOME=$PWD
@@ -78,6 +83,8 @@
             mkdir -p mariadb
             mkdir -p mariadb/data
             mkdir -p mariadb/english
+            mkdir -p mariadb/tmp
+            touch mariadb/tmp/mysql.sock
             mkdir -p services/mariadb
             cp -r -u -f ${mariadbservice}/. services/mariadb/
             mkdir -p services/mariadb/logs
@@ -121,9 +128,16 @@
             #shopware setup
             cp -r -u -f ${shopware}/. $HOME/
             cat ${shopwareconf}/config.php | envsubst > config.php
-
+            composer install --working-dir=$HOME/recovery/common
+            
             #start services
-            # runsvdir services
+            runsvdir services &
+            RUNSVDIRPID=$$
+
+            #shopware install
+            mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
+            mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"CREATE USER IF NOT EXISTS '${dbuser}'@'localhost' IDENTIFIED BY '${dbpass}'\"
+            php recovery/install/index.php --db-host='${dbhost}' --db-port='${dbport}' --db-socket=\"$HOME/mariadb/tmp/mysql.sock\" --db-password='${dbpass}' --db-user=$USER  --db-name='${dbname}' --shop-locale='DE' --shop-currency='EUR' --admin-username='demo' --admin-password='demo' --admin-email='your.email@shop.com' --admin-locale='DE' --no-interaction
           ";
         };
       }  
