@@ -42,12 +42,11 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         php  = phps.packages.${system}.php74;
+        composer1 = phps.packages.${system}.php74.packages.composer-1;
         nginx = pkgs.nginx;
         maria = pkgs.mariadb;
         envsubst = pkgs.envsubst;
         runit = pkgs.runit;
-        rsync = pkgs.rsync;
-        composer = pkgs.php82Packages.composer;
         dbname = "shopware";
         dbuser = "root";
         dbpass = "root";
@@ -61,8 +60,7 @@
             maria
             envsubst
             runit
-            rsync
-            composer
+            composer1
           ];
           NGINX_PATH = nginx;
           HOSTNAME = "localhost";
@@ -128,7 +126,8 @@
             #shopware setup
             cp -r -u -f ${shopware}/. $HOME/
             cat ${shopwareconf}/config.php | envsubst > config.php
-            composer install --working-dir=$HOME/recovery/common
+            chmod -R 755 recovery
+            php -d memory_limit=-1$(which composer) install --working-dir=$HOME/recovery/common
             
             #start services
             runsvdir services &
@@ -136,9 +135,9 @@
             trap 'sv stop nginx && sv stop phpfpm && sv stop mariadb && kill -SIGHUP $RUNSVDIRPID' EXIT
             
             #shopware install
-            mv _sql/install/latest.sql recovery/install/data/install.sql
-            composer update
-            composer install
+            cp _sql/install/latest.sql recovery/install/data/install.sql
+            php -d memory_limit=-1$(which composer) update
+            php -d memory_limit=-1$(which composer) install
             mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
             mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"CREATE USER IF NOT EXISTS '${dbuser}'@'localhost' IDENTIFIED BY '${dbpass}'\"
             php recovery/install/index.php -e dev  --db-host='${dbhost}' --db-port='${dbport}' --db-socket=\"$HOME/mariadb/tmp/mysql.sock\" --db-password='${dbpass}' --db-user=$USER  --db-name='${dbname}' --shop-locale='DE' --shop-currency='EUR' --admin-username='demo' --admin-password='demo' --admin-email='your.email@shop.com' --admin-locale='DE' --no-interaction
