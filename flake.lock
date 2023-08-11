@@ -192,7 +192,8 @@
         "phpfpmconf": "phpfpmconf",
         "phpfpmservice": "phpfpmservice",
         "phps": "phps",
-        "shopware": "shopware"
+        "shopware": "shopware",
+        "shopwareconf": "shopwareconf"
       }
     },
     "shopware": {
@@ -208,6 +209,22 @@
       "original": {
         "owner": "shopware5",
         "repo": "shopware",
+        "type": "github"
+      }
+    },
+    "shopwareconf": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1691731990,
+        "narHash": "sha256-8qsRVIgx20/Cfzz+VmULTSl8BpMMc68bpxDT8NEkv4Q=",
+        "owner": "GregorLohaus",
+        "repo": "dw5_conf_for_sw5_flake",
+        "rev": "bc88c9292705838690bc277035785cc81a93be48",
+        "type": "github"
+      },
+      "original": {
+        "owner": "GregorLohaus",
+        "repo": "dw5_conf_for_sw5_flake",
         "type": "github"
       }
     },

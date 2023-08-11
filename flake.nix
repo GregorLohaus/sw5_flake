@@ -47,6 +47,7 @@
         envsubst = pkgs.envsubst;
         runit = pkgs.runit;
         rsync = pkgs.rsync;
+        composer = phps.packages.${system}.composer;
       in {
         devShell = pkgs.mkShell {
           buildInputs = [
@@ -56,6 +57,7 @@
             envsubst
             runit
             rsync
+            composer
           ];
           NGINX_PATH = nginx;
           HOSTNAME = "localhost";
@@ -83,11 +85,10 @@
             cat services/mariadb/run_subst | envsubst > services/mariadb/run 
             cat services/mariadb/log/run_subst | envsubst > services/mariadb/log/run
             chmod -R 777 services/mariadb
-            mysql_install_db --datadir=./mariadb/data
+            if ! [ -e mariadb/data/mysql/db.opt ]; then mysql_install_db --datadir=./mariadb/data; fi
             
             #nginx setup
             cat ${nginxconfshopware}/shopware5.conf | envsubst > nginx.conf
-            cat ${nginxconfshopware}/fastcgi.conf | envsubst > fastcgi.conf
             cp -r -u -f ${nginxservice}/. services/
             chmod -R 777 services/nginx
             cat services/nginx_subst/run_subst | envsubst > services/nginx/run 
