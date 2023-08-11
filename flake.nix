@@ -60,6 +60,7 @@
           NGINX_SERVICE = nginxservice;
           PHPFPMCONF = phpfpmconf;
           PHPFPM_SERVICE = phpfpmservice;
+          NGINX_PATH = nginx;
           HOSTNAME = "localhost"; 
           shellHook = "
             #env setup
