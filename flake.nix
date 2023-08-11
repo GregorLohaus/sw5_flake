@@ -127,7 +127,7 @@
             cp -r -u -f ${shopware}/. $HOME/
             cat ${shopwareconf}/config.php | envsubst > config.php
             chmod -R 755 recovery
-            php -d memory_limit=-1$(which composer) install --working-dir=$HOME/recovery/common
+            COMPOSER_MEMORY_LIMIT=-1 composer install --working-dir=$HOME/recovery/common
             
             #start services
             runsvdir services &
@@ -135,9 +135,10 @@
             trap 'sv stop nginx && sv stop phpfpm && sv stop mariadb && kill -SIGHUP $RUNSVDIRPID' EXIT
             
             #shopware install
+            chmod -R 755 vendor
             cp _sql/install/latest.sql recovery/install/data/install.sql
-            php -d memory_limit=-1$(which composer) update
-            php -d memory_limit=-1$(which composer) install
+            COMPOSER_MEMORY_LIMIT=-1 composer update
+            COMPOSER_MEMORY_LIMIT=-1 composer install
             mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
             mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"CREATE USER IF NOT EXISTS '${dbuser}'@'localhost' IDENTIFIED BY '${dbpass}'\"
             php recovery/install/index.php -e dev  --db-host='${dbhost}' --db-port='${dbport}' --db-socket=\"$HOME/mariadb/tmp/mysql.sock\" --db-password='${dbpass}' --db-user=$USER  --db-name='${dbname}' --shop-locale='DE' --shop-currency='EUR' --admin-username='demo' --admin-password='demo' --admin-email='your.email@shop.com' --admin-locale='DE' --no-interaction
