@@ -32,8 +32,12 @@
       url = "github:GregorLohaus/php_fpm_conf_for_sw5_flake";
       flake = false;
     };
+    shopwareconf = {
+      url = "github:GregorLohaus/dw5_conf_for_sw5_flake";
+      flake = false;
+    };
   };
-  outputs = { self, nixpkgs, flake-utils, phps, shopware, nginxconfshopware, mariadbcnf, mariadbservice, nginxservice, phpfpmconf, phpfpmservice }: 
+  outputs = { self, nixpkgs, flake-utils, phps, shopware, nginxconfshopware, mariadbcnf, mariadbservice, nginxservice, phpfpmconf, phpfpmservice, shopwareconf }: 
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -53,15 +57,13 @@
             runit
             rsync
           ];
-          SHOPWARE_SOURCE = shopware;
-          NGINX_CONF = nginxconfshopware; 
-          MARIADB_CONF = mariadbcnf;
-          MARIADB_SERVICE = mariadbservice;
-          NGINX_SERVICE = nginxservice;
-          PHPFPMCONF = phpfpmconf;
-          PHPFPM_SERVICE = phpfpmservice;
           NGINX_PATH = nginx;
-          HOSTNAME = "localhost"; 
+          HOSTNAME = "localhost";
+          DBPASS = "root";
+          DBUSER = "root";
+          DBHOST = "127.0.0.1";
+          DBPORT = "3306"; 
+          DBNAME = "shopware";
           shellHook = "
             #env setup
             export HOME=$PWD
@@ -70,22 +72,23 @@
             chmod -R 755 .
             
             #mariadb setup
-            cat $MARIADB_CONF/my.cnf | envsubst > my.cnf
+            cat ${mariadbcnf}/my.cnf | envsubst > my.cnf
             mkdir -p mariadb
             mkdir -p mariadb/data
             mkdir -p mariadb/english
             mkdir -p services/mariadb
-            cp -r -u -f $MARIADB_SERVICE/. services/mariadb/
+            cp -r -u -f ${mariadbservice}/. services/mariadb/
             mkdir -p services/mariadb/logs
             chmod -R 777 services/mariadb
             cat services/mariadb/run_subst | envsubst > services/mariadb/run 
             cat services/mariadb/log/run_subst | envsubst > services/mariadb/log/run
             chmod -R 777 services/mariadb
-
+            mysql_install_db --datadir=./mariadb/data
+            
             #nginx setup
-            cat $NGINX_CONF/shopware5.conf | envsubst > nginx.conf
-            cat $NGINX_CONF/fastcgi.conf | envsubst > fastcgi.conf
-            cp -r -u -f $NGINX_SERVICE/. services/
+            cat ${nginxconfshopware}/shopware5.conf | envsubst > nginx.conf
+            cat ${nginxconfshopware}/fastcgi.conf | envsubst > fastcgi.conf
+            cp -r -u -f ${nginxservice}/. services/
             chmod -R 777 services/nginx
             cat services/nginx_subst/run_subst | envsubst > services/nginx/run 
             cat services/nginx_subst/log/run_subst | envsubst > services/nginx/log/run
@@ -104,8 +107,8 @@
             touch phpfpmlogs/php-fpm.pid
             chmod -R 777 phpfpmlogs
             chmod -R 777 tmp
-            cat $PHPFPMCONF/php-fpm.conf | envsubst > php-fpm.conf
-            cp -r -u -f $PHPFPM_SERVICE/. services/
+            cat ${phpfpmconf}/php-fpm.conf | envsubst > php-fpm.conf
+            cp -r -u -f ${phpfpmservice}/. services/
             chmod -R 777 services/phpfpm
             cat services/phpfpm_subst/run_subst | envsubst > services/phpfpm/run 
             cat services/phpfpm_subst/log/run_subst | envsubst > services/phpfpm/log/run
@@ -115,7 +118,8 @@
             touch php-fpm.sock
             
             #shopware setup
-            cp -r -u -f $SHOPWARE_SOURCE/. $HOME/
+            cp -r -u -f ${shopware}/. $HOME/
+            cat ${shopwareconf}/config.php | envsubst > config.php
 
             #start services
             # runsvdir services
