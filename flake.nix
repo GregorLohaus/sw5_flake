@@ -52,8 +52,8 @@
         envsubst = pkgs.envsubst;
         runit = pkgs.runit;
         dbname = "shopware";
-        dbuser = "root";
-        dbpass = "root";
+        dbuser = "shopware-user";
+        dbpass = "password";
         dbhost = "127.0.0.1";
         dbport = "3306";
       in {
@@ -131,7 +131,7 @@
             cp -r -u -f ${shopware}/. $HOME/
             cat ${shopwareconf}/config.php | envsubst > config.php
             chmod -R 755 recovery
-            COMPOSER_MEMORY_LIMIT=-1 composer install --working-dir=$HOME/recovery/common
+            COMPOSER_MEMORY_LIMIT=-1 composer -q  install --working-dir=$HOME/recovery/common
             
             #start services
             runsvdir services &
@@ -139,14 +139,17 @@
             trap 'sv stop nginx && sv stop phpfpm && sv stop mariadb && kill -SIGHUP $RUNSVDIRPID' EXIT
             
             #shopware install
-            chmod -R 755 vendor
-            cp -r -u -f ${sw5-6-7sql}/. recovery/install/data/sql
-            chmod -R 755 recovery 
-            cp recovery/install/config/production.php recovery/install/config/dev.php
-            COMPOSER_MEMORY_LIMIT=-1 composer install
-            mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
-            mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"CREATE USER IF NOT EXISTS '${dbuser}'@'localhost' IDENTIFIED BY '${dbpass}'\"
-            php recovery/install/index.php -e dev  --db-host='${dbhost}' --db-port='${dbport}' --db-socket=\"$HOME/mariadb/tmp/mysql.sock\" --db-password='${dbpass}' --db-user=$USER  --db-name='${dbname}' --shop-locale='DE' --shop-currency='EUR' --admin-username='demo' --admin-password='demo' --admin-email='your.email@shop.com' --admin-locale='DE' --no-interaction
+            if ! [ -e recovery/install/data/install.lock ]; then 
+              chmod -R 755 vendor
+              cp -r -u -f ${sw5-6-7sql}/. recovery/install/data/sql
+              chmod -R 755 recovery 
+              cp recovery/install/config/production.php recovery/install/config/dev.php
+              COMPOSER_MEMORY_LIMIT=-1 composer -q install
+              mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
+              mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"CREATE USER IF NOT EXISTS '${dbuser}'@'localhost' IDENTIFIED BY '${dbpass}'\"
+              mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"GRANT ALL PRIVILEGES ON *.* TO '${dbuser}'@'localhost';\"
+              php recovery/install/index.php -e dev  --db-host='${dbhost}' --db-port='${dbport}' --db-socket=\"$HOME/mariadb/tmp/mysql.sock\" --db-password='${dbpass}' --db-user=${dbuser}  --db-name='${dbname}' --shop-currency='EUR' --admin-username='demo' --admin-password='demo' --admin-email='your.email@shop.com' --admin-locale='de_DE' --shop-locale='de_DE' --admin-name='demo'  --no-interaction
+            fi
           ";
         };
       }  
