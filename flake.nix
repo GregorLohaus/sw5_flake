@@ -8,6 +8,10 @@
       url = "github:shopware5/shopware?ref=d2d64507ba73d6602a8027da7bfd7a55d06aae66";
       flake = false;
     };
+    sw5-6-7sql = {
+      url = "github:GregorLohaus/sw5-6-7-rec-inst-dat-sql";
+      flake = false;
+    };
     nginxconfshopware = {
       url = "github:GregorLohaus/nginxshopwareconf";
       flake = false;
@@ -37,7 +41,7 @@
       flake = false;
     };
   };
-  outputs = { self, nixpkgs, flake-utils, phps, shopware, nginxconfshopware, mariadbcnf, mariadbservice, nginxservice, phpfpmconf, phpfpmservice, shopwareconf }: 
+  outputs = { self, nixpkgs, flake-utils, phps, shopware, nginxconfshopware, mariadbcnf, mariadbservice, sw5-6-7sql, nginxservice, phpfpmconf, phpfpmservice, shopwareconf }: 
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -136,8 +140,8 @@
             
             #shopware install
             chmod -R 755 vendor
-            cp _sql/install/latest.sql recovery/install/data/install.sql
-            COMPOSER_MEMORY_LIMIT=-1 composer update
+            cp -r -u -f ${sw5-6-7sql}/. recovery/install/data/sql
+            chmod -R 755 recovery 
             COMPOSER_MEMORY_LIMIT=-1 composer install
             mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
             mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"CREATE USER IF NOT EXISTS '${dbuser}'@'localhost' IDENTIFIED BY '${dbpass}'\"
@@ -146,4 +150,4 @@
         };
       }  
     );
-}
+  }
