@@ -217,11 +217,11 @@
     "shopwareconf": {
       "flake": false,
       "locked": {
-        "lastModified": 1691731990,
-        "narHash": "sha256-8qsRVIgx20/Cfzz+VmULTSl8BpMMc68bpxDT8NEkv4Q=",
+        "lastModified": 1691862650,
+        "narHash": "sha256-InQXOs1tEinyjQ1Vz3Qoymbz+hj4raWeWiSMQY/dH+M=",
         "owner": "GregorLohaus",
         "repo": "dw5_conf_for_sw5_flake",
-        "rev": "bc88c9292705838690bc277035785cc81a93be48",
+        "rev": "15ce0335bf7fdd688b342636eb1ede6674fc475e",
         "type": "github"
       },
       "original": {
