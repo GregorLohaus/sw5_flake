@@ -151,6 +151,8 @@
               mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"CREATE USER IF NOT EXISTS '${dbuser}'@'localhost' IDENTIFIED BY '${dbpass}'\"
               mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"GRANT ALL PRIVILEGES ON *.* TO '${dbuser}'@'localhost';\"
               mysql -u${dbuser} -p${dbpass} -S$HOME/mariadb/tmp/mysql.sock  ${dbname} < _sql/install/latest.sql
+              mkdir -p var/cache
+              chmod -R 755 var
               sed -i 's=___VERSION___=${shopwareversion}=g' engine/Shopware/Kernel.php
               sed -i 's=___VERSION_TEXT___=${shopwareversion}=g' engine/Shopware/Kernel.php
               sed -i 's=___REVISION___=${shopwareversion}=g' engine/Shopware/Kernel.php
@@ -159,8 +161,6 @@
               php bin/console sw:migrations:migrate --mode=install
               php bin/console sw:snippets:to:sql ./recovery/install/data/sql/snippets.sql --force --include-default-plugins --update=false
               mysqldump --quick  -u${dbuser} -p${dbpass} -S$HOME/mariadb/tmp/mysql.sock ${dbname} > recovery/install/data/sql/install.sql
-              mkdir -p var/cache
-              chmod -R 755 var
               php recovery/install/index.php --db-host='${dbhost}' --db-port='${dbport}' --db-socket=\"$HOME/mariadb/tmp/mysql.sock\" --db-password='${dbpass}' --db-user=${dbuser}  --db-name='${dbname}' --shop-currency='EUR' --admin-username='demo' --admin-password='demo' --admin-email='your.email@shop.com' --admin-locale='de_DE' --shop-locale='de_DE' --admin-name='demo'  --no-interaction
             fi
           ";
