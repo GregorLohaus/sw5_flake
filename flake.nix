@@ -51,7 +51,6 @@
         maria = pkgs.mariadb;
         envsubst = pkgs.envsubst;
         runit = pkgs.runit;
-        make = pkgs.make;
         dbname = "shopware";
         dbuser = "shopware-user";
         dbpass = "password";
@@ -66,7 +65,6 @@
             maria
             envsubst
             runit
-            make
             composer1
           ];
           NGINX_PATH = nginx;
@@ -134,7 +132,7 @@
             cp -r -u -f ${shopware}/. $HOME/
             cat ${shopwareconf}/config.php | envsubst > config.php
             chmod -R 755 recovery
-            COMPOSER_MEMORY_LIMIT=-1 composer -q --no-dev install --working-dir=$HOME/recovery/commonc
+            COMPOSER_MEMORY_LIMIT=-1 composer -q --no-dev install --working-dir=$HOME/recovery/common
             
             #start services
             runsvdir services &
@@ -145,23 +143,24 @@
             if ! [ -e recovery/install/data/install.lock ]; then 
               chmod -R 755 vendor
               # cp -r -u -f ${sw5-6-7sql}/. recovery/install/data/sql
-              chmod -R 755 recovery 
+              chmod -R 755 recovery
+              chmod -R 755 engine 
               # cp recovery/install/config/production.php recovery/install/config/dev.php
               COMPOSER_MEMORY_LIMIT=-1 composer -q install
               mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
               mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"CREATE USER IF NOT EXISTS '${dbuser}'@'localhost' IDENTIFIED BY '${dbpass}'\"
               mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"GRANT ALL PRIVILEGES ON *.* TO '${dbuser}'@'localhost';\"
               mysql -u${dbuser} -p${dbpass} -S$HOME/mariadb/tmp/mysql.sock  ${dbname} < _sql/install/latest.sql
-              php bin/console sw:migrations:migrate --mode=install
-              php bin/console sw:snippets:to:sql ./recovery/install/data/sql/snippets.sql --force --include-default-plugins --update=false
-              mysqldump --column-statistics=0 --quick  -u${dbuser} -p${dbpass} -S$HOME/mariadb/tmp/mysql.sock ${dbname} > recovery/install/data/sql/install.sql
-              mkdir -p var/cache
-              chmod -R 755 var
               sed -i 's=___VERSION___=${shopwareversion}=g' engine/Shopware/Kernel.php
               sed -i 's=___VERSION_TEXT___=${shopwareversion}=g' engine/Shopware/Kernel.php
               sed -i 's=___REVISION___=${shopwareversion}=g' engine/Shopware/Kernel.php
               sed -i 's=___VERSION___=${shopwareversion}=g' recovery/install/data/version
               sed -i 's=___VERSION_TEXT___=${shopwareversion}=g' recovery/install/data/version
+              php bin/console sw:migrations:migrate --mode=install
+              php bin/console sw:snippets:to:sql ./recovery/install/data/sql/snippets.sql --force --include-default-plugins --update=false
+              mysqldump --quick  -u${dbuser} -p${dbpass} -S$HOME/mariadb/tmp/mysql.sock ${dbname} > recovery/install/data/sql/install.sql
+              mkdir -p var/cache
+              chmod -R 755 var
               php recovery/install/index.php --db-host='${dbhost}' --db-port='${dbport}' --db-socket=\"$HOME/mariadb/tmp/mysql.sock\" --db-password='${dbpass}' --db-user=${dbuser}  --db-name='${dbname}' --shop-currency='EUR' --admin-username='demo' --admin-password='demo' --admin-email='your.email@shop.com' --admin-locale='de_DE' --shop-locale='de_DE' --admin-name='demo'  --no-interaction
             fi
           ";
