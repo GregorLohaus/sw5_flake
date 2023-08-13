@@ -80,57 +80,55 @@
             chmod -R 755 .
             
             #mariadb setup
-            cat ${mariadbcnf}/my.cnf | envsubst > my.cnf
-            mkdir -p mariadb
-            mkdir -p mariadb/data
-            mkdir -p mariadb/english
-            mkdir -p mariadb/tmp
-            touch mariadb/tmp/mysql.sock
-            mkdir -p services/mariadb
-            cp -r -u -f ${mariadbservice}/. services/mariadb/
-            mkdir -p services/mariadb/logs
-            chmod -R 777 services/mariadb
-            cat services/mariadb/run_subst | envsubst > services/mariadb/run 
-            cat services/mariadb/log/run_subst | envsubst > services/mariadb/log/run
-            chmod -R 777 services/mariadb
-            if ! [ -e mariadb/data/mysql/db.opt ]; then mysql_install_db --datadir=./mariadb/data; fi
-            
+            if ! [ -e my.cnf ]; then
+              cat ${mariadbcnf}/my.cnf | envsubst > my.cnf
+              mkdir -p mariadb
+              mkdir -p mariadb/data
+              mkdir -p mariadb/english
+              mkdir -p mariadb/tmp
+              touch mariadb/tmp/mysql.sock
+              mkdir -p services/mariadb
+              cp -r -u -f ${mariadbservice}/. services/mariadb/
+              mkdir -p services/mariadb/logs
+              chmod -R 777 services/mariadb
+              cat services/mariadb/run_subst | envsubst > services/mariadb/run 
+              cat services/mariadb/log/run_subst | envsubst > services/mariadb/log/run
+              chmod -R 777 services/mariadb
+              mysql_install_db --datadir=./mariadb/data
+            fi
             #nginx setup
-            cat ${nginxconfshopware}/shopware5.conf | envsubst > nginx.conf
-            cp -r -u -f ${nginxservice}/. services/
-            chmod -R 777 services/nginx
-            cat services/nginx_subst/run_subst | envsubst > services/nginx/run 
-            cat services/nginx_subst/log/run_subst | envsubst > services/nginx/log/run
-            chmod -R 777 services/nginx_subst
-            rm -r services/nginx_subst
-            chmod -R 777 services/nginx
-            mkdir -p nginxlogs
-            touch nginxlogs/error.log
-            touch nginxlogs/access.log
-            touch nginxlogs/nginx.pid
-
+            if ! [ -e nginx.conf ]; then
+              cat ${nginxconfshopware}/shopware5.conf | envsubst > nginx.conf
+              cp -r -u -f ${nginxservice}/. services/
+              chmod -R 777 services/nginx
+              cat services/nginx_subst/run_subst | envsubst > services/nginx/run 
+              cat services/nginx_subst/log/run_subst | envsubst > services/nginx/log/run
+              chmod -R 777 services/nginx_subst
+              rm -r services/nginx_subst
+              chmod -R 777 services/nginx
+              mkdir -p nginxlogs
+              touch nginxlogs/error.log
+              touch nginxlogs/access.log
+              touch nginxlogs/nginx.pid
+            fi
             #php-fpm setup
-            mkdir -p tmp
-            mkdir -p phpfpmlogs 
-            touch phpfpmlogs/php-fpm.log
-            touch phpfpmlogs/php-fpm.pid
-            chmod -R 777 phpfpmlogs
-            chmod -R 777 tmp
-            cat ${phpfpmconf}/php-fpm.conf | envsubst > php-fpm.conf
-            cp -r -u -f ${phpfpmservice}/. services/
-            chmod -R 777 services/phpfpm
-            cat services/phpfpm_subst/run_subst | envsubst > services/phpfpm/run 
-            cat services/phpfpm_subst/log/run_subst | envsubst > services/phpfpm/log/run
-            chmod -R 777 services/phpfpm_subst
-            rm -r services/phpfpm_subst
-            chmod -R 777 services/phpfpm
-            touch php-fpm.sock
-            
-            #shopware setup
-            cp -r -u -f ${shopware}/. $HOME/
-            cat ${shopwareconf}/config.php | envsubst > config.php
-            chmod -R 755 recovery
-            COMPOSER_MEMORY_LIMIT=-1 composer --no-dev install --working-dir=$HOME/recovery/common
+            if ! [ -e php-fpm.conf ]; then
+              mkdir -p tmp
+              mkdir -p phpfpmlogs 
+              touch phpfpmlogs/php-fpm.log
+              touch phpfpmlogs/php-fpm.pid
+              chmod -R 777 phpfpmlogs
+              chmod -R 777 tmp
+              cat ${phpfpmconf}/php-fpm.conf | envsubst > php-fpm.conf
+              cp -r -u -f ${phpfpmservice}/. services/
+              chmod -R 777 services/phpfpm
+              cat services/phpfpm_subst/run_subst | envsubst > services/phpfpm/run 
+              cat services/phpfpm_subst/log/run_subst | envsubst > services/phpfpm/log/run
+              chmod -R 777 services/phpfpm_subst
+              rm -r services/phpfpm_subst
+              chmod -R 777 services/phpfpm
+              touch php-fpm.sock
+            fi
             
             #start services
             runsvdir services &
@@ -139,6 +137,10 @@
             
             #shopware install
             if ! [ -e recovery/install/data/install.lock ]; then 
+              cp -r -u -f ${shopware}/. $HOME/
+              cat ${shopwareconf}/config.php | envsubst > config.php
+              chmod -R 755 recovery
+              COMPOSER_MEMORY_LIMIT=-1 composer --no-dev install --working-dir=$HOME/recovery/common
               chmod -R 755 vendor
               chmod -R 755 recovery
               chmod -R 755 engine
