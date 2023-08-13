@@ -8,10 +8,6 @@
       url = "github:shopware5/shopware?ref=d2d64507ba73d6602a8027da7bfd7a55d06aae66";
       flake = false;
     };
-    sw5-6-7sql = {
-      url = "github:GregorLohaus/sw5-6-7-rec-inst-dat-sql";
-      flake = false;
-    };
     nginxconfshopware = {
       url = "github:GregorLohaus/nginxshopwareconf";
       flake = false;
@@ -41,7 +37,7 @@
       flake = false;
     };
   };
-  outputs = { self, nixpkgs, flake-utils, phps, shopware, nginxconfshopware, mariadbcnf, mariadbservice, sw5-6-7sql, nginxservice, phpfpmconf, phpfpmservice, shopwareconf }: 
+  outputs = { self, nixpkgs, flake-utils, phps, shopware, nginxconfshopware, mariadbcnf, mariadbservice, nginxservice, phpfpmconf, phpfpmservice, shopwareconf }: 
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -51,12 +47,13 @@
         maria = pkgs.mariadb;
         envsubst = pkgs.envsubst;
         runit = pkgs.runit;
+        sd = pkgs.sd;
         dbname = "shopware";
         dbuser = "shopware-user";
         dbpass = "password";
         dbhost = "127.0.0.1";
         dbport = "3306";
-        shopwareversion = "5.6.7";
+        shopwareversion = "567";
       in {
         devShell = pkgs.mkShell {
           buildInputs = [
@@ -66,6 +63,7 @@
             envsubst
             runit
             composer1
+            sd
           ];
           NGINX_PATH = nginx;
           HOSTNAME = "localhost";
@@ -132,7 +130,7 @@
             cp -r -u -f ${shopware}/. $HOME/
             cat ${shopwareconf}/config.php | envsubst > config.php
             chmod -R 755 recovery
-            COMPOSER_MEMORY_LIMIT=-1 composer -q --no-dev install --working-dir=$HOME/recovery/common
+            COMPOSER_MEMORY_LIMIT=-1 composer --no-dev install --working-dir=$HOME/recovery/common
             
             #start services
             runsvdir services &
@@ -142,26 +140,43 @@
             #shopware install
             if ! [ -e recovery/install/data/install.lock ]; then 
               chmod -R 755 vendor
-              # cp -r -u -f ${sw5-6-7sql}/. recovery/install/data/sql
               chmod -R 755 recovery
-              chmod -R 755 engine 
-              # cp recovery/install/config/production.php recovery/install/config/dev.php
-              COMPOSER_MEMORY_LIMIT=-1 composer -q install
+              chmod -R 755 engine
+              chmod -R 755 _sql
+              chmod -R 755 web
+              chmod -R 755 media  
+              COMPOSER_MEMORY_LIMIT=-1 composer install
               mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
               mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"CREATE USER IF NOT EXISTS '${dbuser}'@'localhost' IDENTIFIED BY '${dbpass}'\"
               mysql -S$HOME/mariadb/tmp/mysql.sock -u$USER --execute \"GRANT ALL PRIVILEGES ON *.* TO '${dbuser}'@'localhost';\"
               mysql -u${dbuser} -p${dbpass} -S$HOME/mariadb/tmp/mysql.sock  ${dbname} < _sql/install/latest.sql
               mkdir -p var/cache
               chmod -R 755 var
-              sed -i 's=___VERSION___=${shopwareversion}=g' engine/Shopware/Kernel.php
-              sed -i 's=___VERSION_TEXT___=${shopwareversion}=g' engine/Shopware/Kernel.php
-              sed -i 's=___REVISION___=${shopwareversion}=g' engine/Shopware/Kernel.php
-              sed -i 's=___VERSION___=${shopwareversion}=g' recovery/install/data/version
-              sed -i 's=___VERSION_TEXT___=${shopwareversion}=g' recovery/install/data/version
+              sd '___VERSION___' '${shopwareversion}' engine/Shopware/Kernel.php
+              sd '___VERSION_TEXT___' 'greg' engine/Shopware/Kernel.php
+              sd '___REVISION___' '${shopwareversion}' engine/Shopware/Kernel.php
+              sd '___VERSION___' '${shopwareversion}' recovery/install/data/version
+              sd '___VERSION_TEXT___' 'greg' recovery/install/data/version
+              sd 'EOD;' '' _sql/migrations/388-add-emotion-fields-position.php
+              sd '\\s*\"\\);\nEOD' '\\nEOD' _sql/migrations/393-add-404-page-config-options.php
+              sd '\\s*\"\\);\nEOD' '\\nEOD' _sql/migrations/469-add-404-article-page-config.php
+              sd \"'Display title field', NULL\" \"'Display title field'\" _sql/migrations/741-migrate-salutation-mails.php
+              sd \"'Display shop specific votes only', NULL\" \"'Display shop specific votes only'\" _sql/migrations/901-add-vote-shop-id.php
+              sd \"this shop's\" \"this shops\" _sql/migrations/1434-add-href-default-selection.php
+              sd \"as default.\" \"as default.'\" _sql/migrations/1434-add-href-default-selection.php
+              sd \"of the meta description'\" \"of the meta description', ''\" _sql/migrations/1442-add-meta-description-config.php
+              sd \"FROM s_core_config_values\" \"\" _sql/migrations/1459-change-shipping-costs-configs.php
+              sd \"WHERE element_id = @elementId\\);\" \"WHERE element_id = @elementId;\" _sql/migrations/1459-change-shipping-costs-configs.php
+              sd \"'notification\\\\\\'\\);'\\);[^}]*\" \"'notification\\\\\\'\);'\);\n\" _sql/migrations/1602-add-plugin-manager-privilege.php
+              sd \"throw new\" \"debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,20);\nthrow new\" engine/Library/Zend/Cache.php
+              rm _sql/migrations/1632-add-acl-privilege-requirements.php
               php bin/console sw:migrations:migrate --mode=install
               php bin/console sw:snippets:to:sql ./recovery/install/data/sql/snippets.sql --force --include-default-plugins --update=false
+              php bin/console sw:cache:clear
               mysqldump --quick  -u${dbuser} -p${dbpass} -S$HOME/mariadb/tmp/mysql.sock ${dbname} > recovery/install/data/sql/install.sql
-              php recovery/install/index.php --db-host='${dbhost}' --db-port='${dbport}' --db-socket=\"$HOME/mariadb/tmp/mysql.sock\" --db-password='${dbpass}' --db-user=${dbuser}  --db-name='${dbname}' --shop-currency='EUR' --admin-username='demo' --admin-password='demo' --admin-email='your.email@shop.com' --admin-locale='de_DE' --shop-locale='de_DE' --admin-name='demo'  --no-interaction
+              mv config.php configback.php
+              php recovery/install/index.php --db-host='${dbhost}' --db-port='${dbport}' --db-socket=\"$HOME/mariadb/tmp/mysql.sock\" --db-password='${dbpass}' --db-user=${dbuser}  --db-name='${dbname}' --shop-currency='EUR' --admin-username='demo' --shop-host='localhost:8080' --admin-password='demo' --admin-email='your.email@shop.com' --admin-locale='de_DE' --shop-locale='de_DE' --admin-name='demo'  --no-interaction
+              mv configback.php config.php
             fi
           ";
         };

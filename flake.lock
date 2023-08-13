@@ -193,8 +193,7 @@
         "phpfpmservice": "phpfpmservice",
         "phps": "phps",
         "shopware": "shopware",
-        "shopwareconf": "shopwareconf",
-        "sw5-6-7sql": "sw5-6-7sql"
+        "shopwareconf": "shopwareconf"
       }
     },
     "shopware": {
@@ -227,22 +226,6 @@
       "original": {
         "owner": "GregorLohaus",
         "repo": "dw5_conf_for_sw5_flake",
-        "type": "github"
-      }
-    },
-    "sw5-6-7sql": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1691758715,
-        "narHash": "sha256-wmktJ8fPaqMP4CqCOYL49mX3Icvk13o+OnXtrKDVFMo=",
-        "owner": "GregorLohaus",
-        "repo": "sw5-6-7-rec-inst-dat-sql",
-        "rev": "f9a679616b93f243f473e5b831574b4ddf8f4076",
-        "type": "github"
-      },
-      "original": {
-        "owner": "GregorLohaus",
-        "repo": "sw5-6-7-rec-inst-dat-sql",
         "type": "github"
       }
     },
