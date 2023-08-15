@@ -5,7 +5,7 @@
     flake-utils.url = "github:numtide/flake-utils";
     phps.url = "github:fossar/nix-phps";  
     shopware = {
-      url = "github:shopware5/shopware?ref=d2d64507ba73d6602a8027da7bfd7a55d06aae66";
+      url = "github:shopware5/shopware?ref=95e77156a9c8e0f2c3b731d7e4835cb26921c36d";
       flake = false;
     };
     nginxconfshopware = {
@@ -42,7 +42,7 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         php  = phps.packages.${system}.php74;
-        composer1 = phps.packages.${system}.php74.packages.composer-1;
+        composer1 = phps.packages.${system}.php74.packages.composer;
         nginx = pkgs.nginx;
         maria = pkgs.mariadb;
         envsubst = pkgs.envsubst;
@@ -53,7 +53,7 @@
         dbpass = "password";
         dbhost = "127.0.0.1";
         dbport = "3306";
-        shopwareversion = "567";
+        shopwareversion = "5_7_18";
       in {
         devShell = pkgs.mkShell {
           buildInputs = [
@@ -159,19 +159,6 @@
               sd '___REVISION___' '${shopwareversion}' engine/Shopware/Kernel.php
               sd '___VERSION___' '${shopwareversion}' recovery/install/data/version
               sd '___VERSION_TEXT___' 'greg' recovery/install/data/version
-              sd 'EOD;' '' _sql/migrations/388-add-emotion-fields-position.php
-              sd '\\s*\"\\);\nEOD' '\\nEOD' _sql/migrations/393-add-404-page-config-options.php
-              sd '\\s*\"\\);\nEOD' '\\nEOD' _sql/migrations/469-add-404-article-page-config.php
-              sd \"'Display title field', NULL\" \"'Display title field'\" _sql/migrations/741-migrate-salutation-mails.php
-              sd \"'Display shop specific votes only', NULL\" \"'Display shop specific votes only'\" _sql/migrations/901-add-vote-shop-id.php
-              sd \"this shop's\" \"this shops\" _sql/migrations/1434-add-href-default-selection.php
-              sd \"as default.\" \"as default.'\" _sql/migrations/1434-add-href-default-selection.php
-              sd \"of the meta description'\" \"of the meta description', ''\" _sql/migrations/1442-add-meta-description-config.php
-              sd \"FROM s_core_config_values\" \"\" _sql/migrations/1459-change-shipping-costs-configs.php
-              sd \"WHERE element_id = @elementId\\);\" \"WHERE element_id = @elementId;\" _sql/migrations/1459-change-shipping-costs-configs.php
-              sd \"'notification\\\\\\'\\);'\\);[^}]*\" \"'notification\\\\\\'\);'\);\n\" _sql/migrations/1602-add-plugin-manager-privilege.php
-              sd \"throw new\" \"debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS,20);\nthrow new\" engine/Library/Zend/Cache.php
-              rm _sql/migrations/1632-add-acl-privilege-requirements.php
               php bin/console sw:migrations:migrate --mode=install
               php bin/console sw:snippets:to:sql ./recovery/install/data/sql/snippets.sql --force --include-default-plugins --update=false
               php bin/console sw:cache:clear
