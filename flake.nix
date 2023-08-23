@@ -41,8 +41,8 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        php  = phps.packages.${system}.php74;
-        composer1 = phps.packages.${system}.php74.packages.composer;
+        php  = phps.packages.${system}.php81;
+        composer1 = phps.packages.${system}.php81.packages.composer;
         nginx = pkgs.nginx;
         maria = pkgs.mariadb;
         envsubst = pkgs.envsubst;
