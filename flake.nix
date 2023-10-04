@@ -9,7 +9,7 @@
       flake = false;
     };
     nginxconfshopware = {
-      url = "github:GregorLohaus/nginxshopwareconf";
+      url = "github:GregorLohaus/nginx_conf_for_sw_flakes?ref=sw-v-5-6-7";
       flake = false;
     };
     mariadbcnf = {
@@ -87,7 +87,7 @@
             mkdir -p mariadb/tmp
             touch mariadb/tmp/mysql.sock
             mkdir -p services/mariadb
-            cp -r -u -f ${mariadbservice}/. services/mariadb/
+            cp -r -f ${mariadbservice}/. services/mariadb/
             mkdir -p services/mariadb/logs
             chmod -R 777 services/mariadb
             cat services/mariadb/run_subst | envsubst > services/mariadb/run 
@@ -97,7 +97,7 @@
             
             #nginx setup
             cat ${nginxconfshopware}/shopware5.conf | envsubst > nginx.conf
-            cp -r -u -f ${nginxservice}/. services/
+            cp -r -f ${nginxservice}/. services/
             chmod -R 777 services/nginx
             cat services/nginx_subst/run_subst | envsubst > services/nginx/run 
             cat services/nginx_subst/log/run_subst | envsubst > services/nginx/log/run
@@ -117,7 +117,7 @@
             chmod -R 777 phpfpmlogs
             chmod -R 777 tmp
             cat ${phpfpmconf}/php-fpm.conf | envsubst > php-fpm.conf
-            cp -r -u -f ${phpfpmservice}/. services/
+            cp -r -f ${phpfpmservice}/. services/
             chmod -R 777 services/phpfpm
             cat services/phpfpm_subst/run_subst | envsubst > services/phpfpm/run 
             cat services/phpfpm_subst/log/run_subst | envsubst > services/phpfpm/log/run
@@ -127,7 +127,7 @@
             touch php-fpm.sock
             
             #shopware setup
-            cp -r -u -f ${shopware}/. $HOME/
+            cp -r -f ${shopware}/. $HOME/
             cat ${shopwareconf}/config.php | envsubst > config.php
             chmod -R 755 recovery
             COMPOSER_MEMORY_LIMIT=-1 composer --no-dev install --working-dir=$HOME/recovery/common
