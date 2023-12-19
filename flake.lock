@@ -37,16 +37,17 @@
     "mariadbcnf": {
       "flake": false,
       "locked": {
-        "lastModified": 1691512500,
-        "narHash": "sha256-OadWsz87xOArh6lgmnLocFFt3QJKHIvi2sQBl1OTDpM=",
+        "lastModified": 1694787917,
+        "narHash": "sha256-95/WJdu5Tsrw3wCDV6sAMZ8RIH3J8R5WSjP2yrEWgKc=",
         "owner": "GregorLohaus",
-        "repo": "simplelocalmariadbconf",
-        "rev": "b12615fdbf3530e27f61e286fb9eb025c57f92f8",
+        "repo": "mariadb_conf_for_sw_flakes",
+        "rev": "de71c6b64e5132e04ec44178e5f1796c2045cfcb",
         "type": "github"
       },
       "original": {
         "owner": "GregorLohaus",
-        "repo": "simplelocalmariadbconf",
+        "ref": "sw-v-6-5-0-0",
+        "repo": "mariadb_conf_for_sw_flakes",
         "type": "github"
       }
     },

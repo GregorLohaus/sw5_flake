@@ -13,7 +13,7 @@
       flake = false;
     };
     mariadbcnf = {
-      url = "github:GregorLohaus/simplelocalmariadbconf";
+      url = "github:GregorLohaus/mariadb_conf_for_sw_flakes?ref=sw-v-6-5-0-0";
       flake = false;
     };
     mariadbservice = {
