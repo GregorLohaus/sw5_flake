@@ -5,7 +5,7 @@
     flake-utils.url = "github:numtide/flake-utils";
     phps.url = "github:fossar/nix-phps";  
     shopware = {
-      url = "github:shopware5/shopware?ref=95e77156a9c8e0f2c3b731d7e4835cb26921c36d";
+      url = "github:shopware5/shopware?ref=v5.7.14";
       flake = false;
     };
     nginxconfshopware = {
