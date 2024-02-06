@@ -129,6 +129,7 @@
               php $HOME/shopware/recovery/install/index.php --db-host='${dbhost}' --db-port='${dbport}' --db-socket=\"$HOME/.state/mariadb/tmp/mysql.sock\" --db-password='${dbpass}' --db-user=${dbuser}  --db-name='${dbname}' --shop-currency='EUR' --admin-username='demo' --shop-host='localhost:8080' --admin-password='demo' --admin-email='your.email@shop.com' --admin-locale='de_DE' --shop-locale='de_DE' --admin-name='demo'  --no-interaction
               mv $HOME/shopware/configback.php $HOME/shopware/config.php
             fi
+            zellij
           ";
         };
       }  
