@@ -34,70 +34,6 @@
         "type": "github"
       }
     },
-    "mariadbcnf": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1691512500,
-        "narHash": "sha256-OadWsz87xOArh6lgmnLocFFt3QJKHIvi2sQBl1OTDpM=",
-        "owner": "GregorLohaus",
-        "repo": "simplelocalmariadbconf",
-        "rev": "b12615fdbf3530e27f61e286fb9eb025c57f92f8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "GregorLohaus",
-        "repo": "simplelocalmariadbconf",
-        "type": "github"
-      }
-    },
-    "mariadbservice": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1691653995,
-        "narHash": "sha256-3QWCzCZ8CSdxU9DGD4qvpdw/uCc7r5EAIzpRmC1OHJA=",
-        "owner": "GregorLohaus",
-        "repo": "runit_mariadb_service_for_sw5_flake",
-        "rev": "6fe030b6e1be15f8ae6408dd7cdd26967e18e512",
-        "type": "github"
-      },
-      "original": {
-        "owner": "GregorLohaus",
-        "repo": "runit_mariadb_service_for_sw5_flake",
-        "type": "github"
-      }
-    },
-    "nginxconfshopware": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1691857822,
-        "narHash": "sha256-AiHlKNuUATqcTPfz4wn2W3pkRFTuVMg/73jWg4u0xp0=",
-        "owner": "GregorLohaus",
-        "repo": "nginxshopwareconf",
-        "rev": "3469c5c90c75e1cc4236a8ff92922bba6c35cf21",
-        "type": "github"
-      },
-      "original": {
-        "owner": "GregorLohaus",
-        "repo": "nginxshopwareconf",
-        "type": "github"
-      }
-    },
-    "nginxservice": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1691674756,
-        "narHash": "sha256-92WVVOXhZANpiK8nyWpxoyxq/9ALtEyLXSWvAdpsezQ=",
-        "owner": "GregorLohaus",
-        "repo": "runit_nginx_service_for_sw5_flake",
-        "rev": "266fe0fe88af52597be58bc37920860557ffb70a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "GregorLohaus",
-        "repo": "runit_nginx_service_for_sw5_flake",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1691511482,
@@ -110,6 +46,7 @@
       "original": {
         "owner": "nixos",
         "repo": "nixpkgs",
+        "rev": "14310de62cb84811b9e55f6a9931330d7c71670a",
         "type": "github"
       }
     },
@@ -129,35 +66,18 @@
         "type": "github"
       }
     },
-    "phpfpmconf": {
-      "flake": false,
+    "nixpkgs_latest": {
       "locked": {
-        "lastModified": 1691687103,
-        "narHash": "sha256-NA5p5UGBpsTmQO3ehvl7Q5ruh0WW244WTAlD1M3t1Lw=",
-        "owner": "GregorLohaus",
-        "repo": "php_fpm_conf_for_sw5_flake",
-        "rev": "54eca75b22d8c9873dc34b41388b23b1dd3465f6",
+        "lastModified": 1707248851,
+        "narHash": "sha256-8bv30S963fzGw9LoQOOArZRN/CEaX1sLXroJw46IQ90=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "e983c3005a5dad80ffedd50d2a697f301c4df5be",
         "type": "github"
       },
       "original": {
-        "owner": "GregorLohaus",
-        "repo": "php_fpm_conf_for_sw5_flake",
-        "type": "github"
-      }
-    },
-    "phpfpmservice": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1691680617,
-        "narHash": "sha256-3dMgFY8yVLX0E3L81Xe/F49x8OuKZfAGJHYS1iusEXQ=",
-        "owner": "GregorLohaus",
-        "repo": "runit_phpfpm_service_for_sw5_flake",
-        "rev": "4f061666b62d56acfeb569472b1e634bf760e380",
-        "type": "github"
-      },
-      "original": {
-        "owner": "GregorLohaus",
-        "repo": "runit_phpfpm_service_for_sw5_flake",
+        "owner": "nixos",
+        "repo": "nixpkgs",
         "type": "github"
       }
     },
@@ -184,16 +104,10 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "mariadbcnf": "mariadbcnf",
-        "mariadbservice": "mariadbservice",
-        "nginxconfshopware": "nginxconfshopware",
-        "nginxservice": "nginxservice",
         "nixpkgs": "nixpkgs",
-        "phpfpmconf": "phpfpmconf",
-        "phpfpmservice": "phpfpmservice",
+        "nixpkgs_latest": "nixpkgs_latest",
         "phps": "phps",
-        "shopware": "shopware",
-        "shopwareconf": "shopwareconf"
+        "shopware": "shopware"
       }
     },
     "shopware": {
@@ -210,22 +124,6 @@
         "owner": "shopware5",
         "ref": "95e77156a9c8e0f2c3b731d7e4835cb26921c36d",
         "repo": "shopware",
-        "type": "github"
-      }
-    },
-    "shopwareconf": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1691864976,
-        "narHash": "sha256-CpkKGk7wZ2itWgZ1mTXqeJsfR5NJaWHLpLUsu+bsvXA=",
-        "owner": "GregorLohaus",
-        "repo": "dw5_conf_for_sw5_flake",
-        "rev": "cc374cff7f87dd9ea0d762bf4318cda859467f77",
-        "type": "github"
-      },
-      "original": {
-        "owner": "GregorLohaus",
-        "repo": "dw5_conf_for_sw5_flake",
         "type": "github"
       }
     },

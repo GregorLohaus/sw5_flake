@@ -1,0 +1,6 @@
+[06-Feb-2024 21:42:23] NOTICE: [pool www] 'user' directive is ignored when FPM is not running as root
+[06-Feb-2024 21:42:23] NOTICE: fpm is running, pid 259231
+[06-Feb-2024 21:42:23] NOTICE: ready to handle connections
+[06-Feb-2024 21:42:23] NOTICE: systemd monitor interval set to 10000ms
+[06-Feb-2024 21:43:40] NOTICE: Terminating ...
+[06-Feb-2024 21:43:40] NOTICE: exiting, bye-bye!
