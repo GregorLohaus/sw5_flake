@@ -1,0 +1,10 @@
+theme = "tokyonight"
+[editor]
+line-number = "relative"
+[editor.file-picker]
+git-ignore = false
+ignore = true
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline" 

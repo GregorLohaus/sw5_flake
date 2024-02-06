@@ -1,0 +1,3 @@
+#!/bin/sh -e
+exec 2>&1
+exec nginx -g 'daemon off;' -e $HOME/.state/nginx/error.log -c $HOME/.state/nginx/nginx.conf

@@ -1,0 +1,8 @@
+[language-server.phpactor]
+command = "phpactor" 
+args = ["language-server"] 
+
+[[language]]
+name = "php"
+roots = ["php.root"]
+language-servers = ["phpactor"]
