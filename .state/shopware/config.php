@@ -6,7 +6,7 @@ return [
         'dbname' => '$DBNAME',
         'host' => '$DBHOST',
         'port' => '$DBPORT',
-        'socket' => '$HOME/mariadb/tmp/mysql.sock'
+        'socket' => '$HOME/.state/mariadb/tmp/mysql.sock'
     ],
 
     'front' => [
