@@ -75,6 +75,7 @@
             if ! [ -e $HOME/.state/mariadb/.dbcreated ]; then
               cat .state/services/mariadb/run_subst | envsubst > .state/services/mariadb/run 
               cat .state/services/mariadb/log/run_subst | envsubst > .state/services/mariadb/log/run
+              cat .state/mariadb/my_subst.cnf | envsubst > .state/mariadb/my.cnf
               mysql_install_db --datadir=./.state/mariadb/data
             fi
 
@@ -90,7 +91,7 @@
 
             #php-fpm setup
             if ! [ -e .state/phpfpm/php-fpm.conf ]; then
-              cat .state/phpfpm/php-fpm.conf | envsubst > .state/phpfpm/php-fpm.conf
+              cat .state/phpfpm/php-fpm_subst.conf | envsubst > .state/phpfpm/php-fpm.conf
               cat .state/services/phpfpm/run_subst | envsubst > .state/services/phpfpm/run 
               cat .state/services/phpfpm/log/run_subst | envsubst > .state/services/phpfpm/log/run
             fi
