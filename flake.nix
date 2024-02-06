@@ -122,7 +122,7 @@
               sd '___VERSION___' '${shopwareversion}' $HOME/shopware/recovery/install/data/version
               sd '___VERSION_TEXT___' 'dev' $HOME/shopware/recovery/install/data/version
               php $HOME/shopware/bin/console sw:migrations:migrate --mode=install
-              php $HOME/shopware/bin/console sw:snippets:to:sql ./recovery/install/data/sql/snippets.sql --force --include-default-plugins --update=false
+              php $HOME/shopware/bin/console sw:snippets:to:sql ./shopware/recovery/install/data/sql/snippets.sql --force --include-default-plugins --update=false
               php $HOME/shopware/bin/console sw:cache:clear
               mysqldump --quick  -u${dbuser} -p${dbpass} -S$HOME/.state/mariadb/tmp/mysql.sock ${dbname} > $HOME/shopware/recovery/install/data/sql/install.sql
               mv $HOME/shopware/config.php $HOME/shopware/configback.php
