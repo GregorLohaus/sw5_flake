@@ -121,62 +121,6 @@
               sd '___REVISION___' 'e496b98' $HOME/shopware/engine/Shopware/Kernel.php
               sd '___VERSION___' '${shopwareversion}' $HOME/shopware/recovery/install/data/version
               sd '___VERSION_TEXT___' 'dev' $HOME/shopware/recovery/install/data/version
-              rm $HOME/shopware/_sql/migrations/1649-add-cookie-consent-manager-site.php
-              rm $HOME/shopware/_sql/migrations/1639-add-review-widget.php
-              rm $HOME/shopware/_sql/migrations/1632-add-acl-privilege-requirements.php
-              rm $HOME/shopware/_sql/migrations/1609-allow-longer-customergroup-keys.php
-              rm $HOME/shopware/_sql/migrations/1459-change-shipping-costs-configs.php
-              rm $HOME/shopware/_sql/migrations/1442-add-meta-description-config.php
-              rm $HOME/shopware/_sql/migrations/1438-add-bi-widgets.php
-              rm $HOME/shopware/_sql/migrations/1434-add-href-default-selection.php
-              rm $HOME/shopware/_sql/migrations/1408-proportional-tax-calculation.php
-              rm $HOME/shopware/_sql/migrations/1201-remove-secure-shop-config.php
-              rm $HOME/shopware/_sql/migrations/901-add-vote-shop-id.php
-              rm $HOME/shopware/_sql/migrations/797-remove-salutation-snippets.php
-              rm $HOME/shopware/_sql/migrations/795-remove-salutation-snippets.php
-              rm $HOME/shopware/_sql/migrations/750-migrate-article-details-base-price.php
-              rm $HOME/shopware/_sql/migrations/746-migrate-shipping.php
-              rm $HOME/shopware/_sql/migrations/745-add-title-user-shipping.php
-              rm $HOME/shopware/_sql/migrations/744-add-title-order-shipping.php
-              rm $HOME/shopware/_sql/migrations/743-add-title-order-billing.php
-              rm $HOME/shopware/_sql/migrations/742-add-title-user-billing.php
-              rm $HOME/shopware/_sql/migrations/741-migrate-salutation-mails.php
-              rm $HOME/shopware/_sql/migrations/735-migrate-old-emotion-relation.php
-              rm $HOME/shopware/_sql/migrations/731-remove-emotion-grids.php
-              rm $HOME/shopware/_sql/migrations/708-attribute-administration.php
-              rm $HOME/shopware/_sql/migrations/705-rename-category-template-column.php
-              rm $HOME/shopware/_sql/migrations/701-remove-emotion-backend-options.php
-              rm $HOME/shopware/_sql/migrations/700-remove-filter-values.php
-              rm $HOME/shopware/_sql/migrations/495-fix-shopping-worlds-grid.php
-              rm $HOME/shopware/_sql/migrations/483-set-device-type-nullable.php
-              rm $HOME/shopware/_sql/migrations/469-add-404-article-page-config.php
-              rm $HOME/shopware/_sql/migrations/422-add-plugin-categories.php
-              rm $HOME/shopware/_sql/migrations/416-remove-dummy-plugins.php
-              rm $HOME/shopware/_sql/migrations/419-extract-acl-service.php
-              rm $HOME/shopware/_sql/migrations/410-add-emotion-fields.php
-              rm $HOME/shopware/_sql/migrations/393-add-404-page-config-options.php
-              rm $HOME/shopware/_sql/migrations/390-add-device-column.php
-              rm $HOME/shopware/_sql/migrations/388-add-emotion-fields-position.php
-              rm shopware/_sql/migrations/773-add-library-component-fields.php
-              rm shopware/_sql/migrations/772-allow-label-nullable.php
-              rm shopware/_sql/migrations/763-add-attributes-read-acl.php
-              rm shopware/_sql/migrations/757-add-array-store-field.php
-              rm shopware/_sql/migrations/740-new-border-setting-for-emotion-widgets.php
-              rm shopware/_sql/migrations/736-add-article-widget-categorie-selection.php
-              rm shopware/_sql/migrations/707-add-new-emotion-link-target-field.php
-              rm shopware/_sql/migrations/703-activate-html-code-widget-by-default.php
-              rm shopware/_sql/migrations/603-add-product-streams.php
-              rm shopware/_sql/migrations/478-add-emotion-banner-title-attr.php
-              rm shopware/_sql/migrations/442-add-option-to-disable-styling-emotions.php
-              rm shopware/_sql/migrations/436-update-html5-video-fields.php
-              rm shopware/_sql/migrations/434-add-emotion-components.php
-              rm shopware/_sql/migrations/433-emotion-device-column-as-varchar.php
-              rm shopware/_sql/migrations/778-add-attribtue-default-value.php
-              rm shopware/_sql/migrations/1652-enforce-unique-attributes.php
-              rm shopware/_sql/migrations/1643-allow-attributes-readonly.php
-              rm shopware/_sql/migrations/1624-add-content-type-to-emotion.php
-              rm shopware/_sql/migrations/919-change-article-emotion-elements.php
-              php $HOME/shopware/bin/console sw:migrations:migrate --mode=install
               php $HOME/shopware/bin/console sw:snippets:to:sql ./shopware/recovery/install/data/sql/snippets.sql --force --include-default-plugins --update=false
               php $HOME/shopware/bin/console sw:cache:clear
               mysqldump --quick  -u${dbuser} -p${dbpass} -S$HOME/.state/mariadb/tmp/mysql.sock ${dbname} > $HOME/shopware/recovery/install/data/sql/install.sql
