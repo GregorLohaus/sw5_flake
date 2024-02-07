@@ -1,17 +1,10 @@
-[client-server]
-# Uncomment these if you want to use a nonstandard connection to MariaDB
+[client]
 socket=$HOME/.state/mariadb/tmp/mysql.sock
-port=$DBPORT
+port=3306
 
-# The MariaDB server
 [mysqld]
-# Directory where you want to put your data
-data=$HOME/.state/mariadb/data
-# Directory for the errmsg.sys file in the language you want to use
 language=$HOME/.state/mariadb/english
-
-# This is the prefix name to be used for all log, error and replication files
-log-basename=mysqld
-
-# Enable logging by default to help find problems
+socket=$HOME/.state/mariadb/tmp/mysql.sock
+port=3306
+bind-address=$DBHOST
 general-log
