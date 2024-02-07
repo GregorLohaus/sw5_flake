@@ -157,6 +157,25 @@
               rm $HOME/shopware/_sql/migrations/393-add-404-page-config-options.php
               rm $HOME/shopware/_sql/migrations/390-add-device-column.php
               rm $HOME/shopware/_sql/migrations/388-add-emotion-fields-position.php
+              rm shopware/_sql/migrations/773-add-library-component-fields.php
+              rm shopware/_sql/migrations/772-allow-label-nullable.php
+              rm shopware/_sql/migrations/763-add-attributes-read-acl.php
+              rm shopware/_sql/migrations/757-add-array-store-field.php
+              rm shopware/_sql/migrations/740-new-border-setting-for-emotion-widgets.php
+              rm shopware/_sql/migrations/736-add-article-widget-categorie-selection.php
+              rm shopware/_sql/migrations/707-add-new-emotion-link-target-field.php
+              rm shopware/_sql/migrations/703-activate-html-code-widget-by-default.php
+              rm shopware/_sql/migrations/603-add-product-streams.php
+              rm shopware/_sql/migrations/478-add-emotion-banner-title-attr.php
+              rm shopware/_sql/migrations/442-add-option-to-disable-styling-emotions.php
+              rm shopware/_sql/migrations/436-update-html5-video-fields.php
+              rm shopware/_sql/migrations/434-add-emotion-components.php
+              rm shopware/_sql/migrations/433-emotion-device-column-as-varchar.php
+              rm shopware/_sql/migrations/778-add-attribtue-default-value.php
+              rm shopware/_sql/migrations/1652-enforce-unique-attributes.php
+              rm shopware/_sql/migrations/1643-allow-attributes-readonly.php
+              rm shopware/_sql/migrations/1624-add-content-type-to-emotion.php
+              rm shopware/_sql/migrations/919-change-article-emotion-elements.php
               php $HOME/shopware/bin/console sw:migrations:migrate --mode=install
               php $HOME/shopware/bin/console sw:snippets:to:sql ./shopware/recovery/install/data/sql/snippets.sql --force --include-default-plugins --update=false
               php $HOME/shopware/bin/console sw:cache:clear
