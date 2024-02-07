@@ -153,6 +153,7 @@
               rm $HOME/shopware/_sql/migrations/422-add-plugin-categories.php
               rm $HOME/shopware/_sql/migrations/416-remove-dummy-plugins.php
               rm $HOME/shopware/_sql/migrations/419-extract-acl-service.php
+              rm $HOME/shopware/_sql/migrations/410-add-emotion-fields.php
               rm $HOME/shopware/_sql/migrations/393-add-404-page-config-options.php
               rm $HOME/shopware/_sql/migrations/390-add-device-column.php
               rm $HOME/shopware/_sql/migrations/388-add-emotion-fields-position.php
