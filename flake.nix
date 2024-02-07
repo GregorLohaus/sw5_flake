@@ -18,7 +18,7 @@
         php  = phps.packages.${system}.php74;
         phpactor = pkgs_latest.phpactor;
         helix = pkgs_latest.helix;
-        composer = phps.packages.${system}.php74.packages.composer;
+        composer = phps.packages.${system}.php74.packages.composer-1;
         nginx = pkgs.nginx;
         starship = pkgs.starship;
         uutils-coreutils = pkgs_latest.uutils-coreutils;
@@ -106,8 +106,8 @@
             #shopware install
             if ! [ -e $HOME/shopware/recovery/install/data/install.lock ]; then 
               cp -r -u -f ${shopware}/. $HOME/shopware
-              cat $HOME/.state/shopware/config.php | envsubst > $HOME/shopware/config.php
               chmod -R 755 shopware
+              cat $HOME/.state/shopware/config.php | envsubst > $HOME/shopware/config.php
               COMPOSER_MEMORY_LIMIT=-1 composer --no-dev install --working-dir=$HOME/shopware/recovery/common
               COMPOSER_MEMORY_LIMIT=-1 composer install --working-dir=$HOME/shopware
               mysql -S$HOME/.state/mariadb/tmp/mysql.sock -u$USER --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
@@ -121,6 +121,41 @@
               sd '___REVISION___' 'e496b98' $HOME/shopware/engine/Shopware/Kernel.php
               sd '___VERSION___' '${shopwareversion}' $HOME/shopware/recovery/install/data/version
               sd '___VERSION_TEXT___' 'dev' $HOME/shopware/recovery/install/data/version
+              rm $HOME/shopware/_sql/migrations/1649-add-cookie-consent-manager-site.php
+              rm $HOME/shopware/_sql/migrations/1639-add-review-widget.php
+              rm $HOME/shopware/_sql/migrations/1632-add-acl-privilege-requirements.php
+              rm $HOME/shopware/_sql/migrations/1609-allow-longer-customergroup-keys.php
+              rm $HOME/shopware/_sql/migrations/1459-change-shipping-costs-configs.php
+              rm $HOME/shopware/_sql/migrations/1442-add-meta-description-config.php
+              rm $HOME/shopware/_sql/migrations/1438-add-bi-widgets.php
+              rm $HOME/shopware/_sql/migrations/1434-add-href-default-selection.php
+              rm $HOME/shopware/_sql/migrations/1408-proportional-tax-calculation.php
+              rm $HOME/shopware/_sql/migrations/1201-remove-secure-shop-config.php
+              rm $HOME/shopware/_sql/migrations/901-add-vote-shop-id.php
+              rm $HOME/shopware/_sql/migrations/797-remove-salutation-snippets.php
+              rm $HOME/shopware/_sql/migrations/795-remove-salutation-snippets.php
+              rm $HOME/shopware/_sql/migrations/750-migrate-article-details-base-price.php
+              rm $HOME/shopware/_sql/migrations/746-migrate-shipping.php
+              rm $HOME/shopware/_sql/migrations/745-add-title-user-shipping.php
+              rm $HOME/shopware/_sql/migrations/744-add-title-order-shipping.php
+              rm $HOME/shopware/_sql/migrations/743-add-title-order-billing.php
+              rm $HOME/shopware/_sql/migrations/742-add-title-user-billing.php
+              rm $HOME/shopware/_sql/migrations/741-migrate-salutation-mails.php
+              rm $HOME/shopware/_sql/migrations/735-migrate-old-emotion-relation.php
+              rm $HOME/shopware/_sql/migrations/731-remove-emotion-grids.php
+              rm $HOME/shopware/_sql/migrations/708-attribute-administration.php
+              rm $HOME/shopware/_sql/migrations/705-rename-category-template-column.php
+              rm $HOME/shopware/_sql/migrations/701-remove-emotion-backend-options.php
+              rm $HOME/shopware/_sql/migrations/700-remove-filter-values.php
+              rm $HOME/shopware/_sql/migrations/495-fix-shopping-worlds-grid.php
+              rm $HOME/shopware/_sql/migrations/483-set-device-type-nullable.php
+              rm $HOME/shopware/_sql/migrations/469-add-404-article-page-config.php
+              rm $HOME/shopware/_sql/migrations/422-add-plugin-categories.php
+              rm $HOME/shopware/_sql/migrations/416-remove-dummy-plugins.php
+              rm $HOME/shopware/_sql/migrations/419-extract-acl-service.php
+              rm $HOME/shopware/_sql/migrations/393-add-404-page-config-options.php
+              rm $HOME/shopware/_sql/migrations/390-add-device-column.php
+              rm $HOME/shopware/_sql/migrations/388-add-emotion-fields-position.php
               php $HOME/shopware/bin/console sw:migrations:migrate --mode=install
               php $HOME/shopware/bin/console sw:snippets:to:sql ./shopware/recovery/install/data/sql/snippets.sql --force --include-default-plugins --update=false
               php $HOME/shopware/bin/console sw:cache:clear
