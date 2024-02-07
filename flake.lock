@@ -98,6 +98,7 @@
       "original": {
         "owner": "fossar",
         "repo": "nix-phps",
+        "rev": "5d9c6911fa10b5dcc8b064db92073b20398514db",
         "type": "github"
       }
     },
@@ -113,16 +114,16 @@
     "shopware": {
       "flake": false,
       "locked": {
-        "lastModified": 1687858341,
-        "narHash": "sha256-na6cyQT34qMD6EqKyK5gsCIU8aCLJ+mneGAagD8xBnY=",
+        "lastModified": 1591077794,
+        "narHash": "sha256-+jpsSdKQCMgfkbRgyrBjHsjCyWy71oPwwyHkqyXxCE0=",
         "owner": "shopware5",
         "repo": "shopware",
-        "rev": "95e77156a9c8e0f2c3b731d7e4835cb26921c36d",
+        "rev": "e496b983949344dadcd31016f970d86b671edf29",
         "type": "github"
       },
       "original": {
         "owner": "shopware5",
-        "ref": "95e77156a9c8e0f2c3b731d7e4835cb26921c36d",
+        "ref": "v5.6.7",
         "repo": "shopware",
         "type": "github"
       }

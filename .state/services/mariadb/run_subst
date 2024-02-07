@@ -1,3 +1,3 @@
 #!/bin/sh -e
 exec 2>&1
-exec mariadbd --defaults-file=$HOME/.state/mariadb/my.cnf
+exec mysqld --defaults-file=$HOME/.state/mariadb/my.cnf
