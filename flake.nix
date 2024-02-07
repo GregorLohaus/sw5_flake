@@ -25,7 +25,7 @@
         git = pkgs.git;
         fish = pkgs.git;
         zellij = pkgs_latest.zellij;
-        maria = pkgs.mariadb;
+        maria = pkgs.mysql80;
         envsubst = pkgs.envsubst;
         runit = pkgs.runit;
         sd = pkgs.sd;
@@ -76,7 +76,7 @@
               cat .state/services/mariadb/run_subst | envsubst > .state/services/mariadb/run 
               cat .state/services/mariadb/log/run_subst | envsubst > .state/services/mariadb/log/run
               cat .state/mariadb/my_subst.cnf | envsubst > .state/mariadb/my.cnf
-              mysql_install_db --datadir=./.state/mariadb/data
+              mysqld --datadir=$HOME/.state/mariadb/data --initialize-insecure
             fi
 
             #nginx setup
@@ -115,12 +115,12 @@
               mysql -S$HOME/.state/mariadb/tmp/mysql.sock -u$USER --execute \"GRANT ALL PRIVILEGES ON *.* TO '${dbuser}'@'localhost';\"
               mysql -u${dbuser} -p${dbpass} -S$HOME/.state/mariadb/tmp/mysql.sock  ${dbname} < $HOME/shopware/_sql/install/latest.sql
               mkdir -p $HOME/shopware/var/cache
-              chmod -R 755 $HOME/shopware/var
               sd '___VERSION___' '${shopwareversion}' $HOME/shopware/engine/Shopware/Kernel.php
               sd '___VERSION_TEXT___' 'dev' $HOME/shopware/engine/Shopware/Kernel.php
               sd '___REVISION___' 'e496b98' $HOME/shopware/engine/Shopware/Kernel.php
               sd '___VERSION___' '${shopwareversion}' $HOME/shopware/recovery/install/data/version
               sd '___VERSION_TEXT___' 'dev' $HOME/shopware/recovery/install/data/version
+              php $HOME/shopware/bin/console sw:migrations:migrate --mode=install 
               php $HOME/shopware/bin/console sw:snippets:to:sql ./shopware/recovery/install/data/sql/snippets.sql --force --include-default-plugins --update=false
               php $HOME/shopware/bin/console sw:cache:clear
               mysqldump --quick  -u${dbuser} -p${dbpass} -S$HOME/.state/mariadb/tmp/mysql.sock ${dbname} > $HOME/shopware/recovery/install/data/sql/install.sql
