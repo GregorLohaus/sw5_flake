@@ -6,7 +6,7 @@
     flake-utils.url = "github:numtide/flake-utils";
     phps.url = "github:fossar/nix-phps";  
     shopware = {
-      url = "github:shopware5/shopware?ref=95e77156a9c8e0f2c3b731d7e4835cb26921c36d";
+      url = "github:shopware5/shopware?ref=v5.6.7";
       flake = false;
     };
   };
@@ -35,7 +35,7 @@
         dbhost = "127.0.0.1";
         dbport = "3306";
         phpfpmport = "9123";
-        shopwareversion = "5.7.18";
+        shopwareversion = "5.6.7";
       in {
         devShell = pkgs.mkShell {
           buildInputs = [
@@ -118,7 +118,7 @@
               chmod -R 755 $HOME/shopware/var
               sd '___VERSION___' '${shopwareversion}' $HOME/shopware/engine/Shopware/Kernel.php
               sd '___VERSION_TEXT___' 'dev' $HOME/shopware/engine/Shopware/Kernel.php
-              sd '___REVISION___' 'flake' $HOME/shopware/engine/Shopware/Kernel.php
+              sd '___REVISION___' 'e496b98' $HOME/shopware/engine/Shopware/Kernel.php
               sd '___VERSION___' '${shopwareversion}' $HOME/shopware/recovery/install/data/version
               sd '___VERSION_TEXT___' 'dev' $HOME/shopware/recovery/install/data/version
               php $HOME/shopware/bin/console sw:migrations:migrate --mode=install
