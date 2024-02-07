@@ -15,7 +15,7 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         pkgs_latest = nixpkgs_latest.legacyPackages.${system};
-        php  = phps.packages.${system}.php81;
+        php  = phps.packages.${system}.php73;
         phpactor = pkgs_latest.phpactor;
         helix = pkgs_latest.helix;
         composer1 = phps.packages.${system}.php81.packages.composer;
