@@ -110,9 +110,9 @@
               cat $HOME/.state/shopware/config.php | envsubst > $HOME/shopware/config.php
               COMPOSER_MEMORY_LIMIT=-1 composer --no-dev install --working-dir=$HOME/shopware/recovery/common
               COMPOSER_MEMORY_LIMIT=-1 composer install --working-dir=$HOME/shopware
-              mysql -S$HOME/.state/mariadb/tmp/mysql.sock -u$USER --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
-              mysql -S$HOME/.state/mariadb/tmp/mysql.sock -u$USER --execute \"CREATE USER IF NOT EXISTS '${dbuser}'@'localhost' IDENTIFIED BY '${dbpass}'\"
-              mysql -S$HOME/.state/mariadb/tmp/mysql.sock -u$USER --execute \"GRANT ALL PRIVILEGES ON *.* TO '${dbuser}'@'localhost';\"
+              mysql -S$HOME/.state/mariadb/tmp/mysql.sock -uroot --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
+              mysql -S$HOME/.state/mariadb/tmp/mysql.sock -uroot --execute \"CREATE USER IF NOT EXISTS '${dbuser}'@'localhost' IDENTIFIED BY '${dbpass}'\"
+              mysql -S$HOME/.state/mariadb/tmp/mysql.sock -uroot --execute \"GRANT ALL PRIVILEGES ON *.* TO '${dbuser}'@'localhost';\"
               mysql -u${dbuser} -p${dbpass} -S$HOME/.state/mariadb/tmp/mysql.sock  ${dbname} < $HOME/shopware/_sql/install/latest.sql
               mkdir -p $HOME/shopware/var/cache
               sd '___VERSION___' '${shopwareversion}' $HOME/shopware/engine/Shopware/Kernel.php
