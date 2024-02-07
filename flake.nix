@@ -18,7 +18,7 @@
         php  = phps.packages.${system}.php73;
         phpactor = pkgs_latest.phpactor;
         helix = pkgs_latest.helix;
-        composer1 = phps.packages.${system}.php81.packages.composer;
+        composer1 = phps.packages.${system}.php73.packages.composer;
         nginx = pkgs.nginx;
         starship = pkgs.starship;
         uutils-coreutils = pkgs_latest.uutils-coreutils;
