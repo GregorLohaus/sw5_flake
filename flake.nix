@@ -108,6 +108,8 @@
               cp -r -u -f ${shopware}/. $HOME/shopware
               chmod -R 755 shopware
               cat $HOME/.state/shopware/config.php | envsubst > $HOME/shopware/config.php
+              rm shopware/engine/Shopware/Components/Migrations/Manager.php
+              cp .state/shopware/Manager.php shopware/engine/Shopware/Components/Migrations/
               COMPOSER_MEMORY_LIMIT=-1 composer --no-dev install --working-dir=$HOME/shopware/recovery/common
               COMPOSER_MEMORY_LIMIT=-1 composer install --working-dir=$HOME/shopware
               mysql -S$HOME/.state/mariadb/tmp/mysql.sock -uroot --execute 'CREATE DATABASE IF NOT EXISTS ${dbname};'
