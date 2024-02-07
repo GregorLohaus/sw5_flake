@@ -15,10 +15,10 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         pkgs_latest = nixpkgs_latest.legacyPackages.${system};
-        php  = phps.packages.${system}.php73;
+        php  = phps.packages.${system}.php72;
         phpactor = pkgs_latest.phpactor;
         helix = pkgs_latest.helix;
-        composer1 = phps.packages.${system}.php73.packages.composer;
+        composer = phps.packages.${system}.php72.packages.composer;
         nginx = pkgs.nginx;
         starship = pkgs.starship;
         uutils-coreutils = pkgs_latest.uutils-coreutils;
@@ -44,7 +44,7 @@
             maria
             envsubst
             runit
-            composer1
+            composer
             sd
             phpactor 
             helix
