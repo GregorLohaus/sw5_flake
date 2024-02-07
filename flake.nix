@@ -4,7 +4,7 @@
     nixpkgs.url = "github:nixos/nixpkgs?rev=14310de62cb84811b9e55f6a9931330d7c71670a";
     nixpkgs_latest.url =  "github:nixos/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
-    phps.url = "github:fossar/nix-phps";  
+    phps.url = "github:fossar/nix-phps?rev=5d9c6911fa10b5dcc8b064db92073b20398514db";  
     shopware = {
       url = "github:shopware5/shopware?ref=v5.6.7";
       flake = false;
@@ -15,10 +15,10 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         pkgs_latest = nixpkgs_latest.legacyPackages.${system};
-        php  = phps.packages.${system}.php72;
+        php  = phps.packages.${system}.php74;
         phpactor = pkgs_latest.phpactor;
         helix = pkgs_latest.helix;
-        composer = phps.packages.${system}.php72.packages.composer;
+        composer = phps.packages.${system}.php74.packages.composer;
         nginx = pkgs.nginx;
         starship = pkgs.starship;
         uutils-coreutils = pkgs_latest.uutils-coreutils;
