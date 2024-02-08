@@ -15,10 +15,10 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         pkgs_latest = nixpkgs_latest.legacyPackages.${system};
-        php  = phps.packages.${system}.php73;
+        php  = phps.packages.${system}.php72;
         phpactor = pkgs_latest.phpactor;
         helix = pkgs_latest.helix;
-        composer1 = phps.packages.${system}.php73.packages.composer-1;
+        composer1 = phps.packages.${system}.php72.packages.composer-1;
         nginx = pkgs.nginx;
         starship = pkgs.starship;
         uutils-coreutils = pkgs_latest.uutils-coreutils;
@@ -35,7 +35,7 @@
         dbhost = "127.0.0.1";
         dbport = "3306";
         phpfpmport = "9123";
-        shopwareversion = "5.7.18";
+        shopwareversion = "5.5.10";
       in {
         devShell = pkgs.mkShell {
           buildInputs = [
@@ -116,6 +116,10 @@
               mysql -u${dbuser} -p${dbpass} -S$HOME/.state/mariadb/tmp/mysql.sock  ${dbname} < $HOME/shopware/_sql/install/latest.sql
               mkdir -p $HOME/shopware/var/cache
               chmod -R 755 $HOME/shopware/var
+              sd '___VERSION___' '${shopwareversion}' $HOME/shopware/engine/Shopware/Components/Plugin/Bootstrap.php
+              sd '___VERSION___' '${shopwareversion}' $HOME/shopware/engine/Shopware/Components/Plugin/RequirementValidator.php
+              sd '___VERSION___' '${shopwareversion}' $HOME/shopware/engine/Shopware/Components/Plugin/Context/InstallContext.php
+              sd '___VERSION___' '${shopwareversion}' $HOME/shopware/engine/Shopware/Application.php
               sd '___VERSION___' '${shopwareversion}' $HOME/shopware/engine/Shopware/Kernel.php
               sd '___VERSION_TEXT___' 'dev' $HOME/shopware/engine/Shopware/Kernel.php
               sd '___REVISION___' 'flake' $HOME/shopware/engine/Shopware/Kernel.php
